@@ -9,6 +9,8 @@ public class Wall {
     int height;
     int width;
 
+    int startX;
+
     Rectangle hitBox;
 
     public Wall(int x, int y, int height, int width) {
@@ -16,6 +18,7 @@ public class Wall {
         this.y = y;
         this.height = height;
         this.width = width;
+        startX = x;
 
         hitBox = new Rectangle(x,y,width,height);
     }
@@ -25,5 +28,11 @@ public class Wall {
         gtd.drawRect(x,y,width,height);
         gtd.setColor(Color.WHITE);
         gtd.fillRect(x+1,y+1,width-2,height-2);
+    }
+
+    public int set(int cameraX){
+        x = startX + cameraX;
+        hitBox.x = x;
+        return x;
     }
 }

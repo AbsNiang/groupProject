@@ -1,5 +1,7 @@
 package com.company.GameStuff;
 
+import com.company.GameStuff.GamePanel;
+
 import java.awt.*;
 
 import static java.lang.Math.signum;
@@ -33,7 +35,7 @@ public class Player {
         hitBox = new Rectangle(x,y,width,height); //sets the players hitBox to the players pos and size
     }
 
-    public void set(){
+    public void set(){ //runs every frame of the game
         if (keyLeft && keyRight || !keyLeft && !keyRight) xspeed *= 0.8; //stops the player moving if both directional keys or no keys are pressed, the deceleration speed
         else if(keyLeft && !keyRight) xspeed --;//moves the player depending on what keys are pressed
         else if(keyRight && !keyLeft) xspeed ++;
@@ -62,8 +64,9 @@ public class Player {
                 hitBox.x -= xspeed;
                 while(!wall.hitBox.intersects(hitBox)) hitBox.x += Math.signum(xspeed); //signum takes the value of it being + or -, allows the player to get as close to the wall without going through it
                 hitBox.x -= Math.signum(xspeed);
+                panel.cameraX += x - hitBox.x; //corrects for player x value changing when hitting a wall
                 xspeed = 0;
-                x = hitBox.x;
+                hitBox.x = x;
             }
         }
 
@@ -79,11 +82,14 @@ public class Player {
             }
         }
 
-        x += xspeed; //allows for player movement
+        panel.cameraX -= xspeed; //allows for player movement
         y += yspeed;
 
         hitBox.x = x; //moves the hitBox with the player
         hitBox.y = y;
+
+        //death code
+        if (y> 800) panel.reset(); //if the player goes below this amount they respawn
     }
 
     public void draw(Graphics2D gtd){

@@ -5,42 +5,72 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class GamePanel extends javax.swing.JPanel implements ActionListener {
+public class GamePanel extends javax.swing.JPanel implements ActionListener { //this is the panel where the game is controlled
 
     Player player;
     ArrayList<Wall> walls = new ArrayList<>(); //stores all the walls
 
     Timer gameTimer;
 
+    int cameraX;
+    int offset;
+
     public GamePanel(){
 
         player = new Player(400,300,this);
 
-        makeWalls();
+        reset(); //creates the level
 
         gameTimer = new Timer();
         gameTimer.schedule(new TimerTask() {
+
             @Override
             public void run(){ //this is the main loop of the game and will run each frame
+                if(walls.get(walls.size() - 1).x < 800){ //check to see if eligible to make more walls
+                    offset += 700; //moves the offset so the walls don't overlap
+                    makeWalls(offset);
+                }
                 player.set();
+                for(Wall wall : walls) wall.set(cameraX);
+                for (int i = 0; i < walls.size(); i++) { //remove this loop to keep the prior map
+                    if(walls.get(i).x < -800) walls.remove(i); //Removes walls behind the player if it generates to many
+                }
                 repaint();
             }
         }, 0,17); //delay changes when the timer starts, period is how long it waits between each tick at 17 it is set to 60fps
     }
 
-    public void makeWalls(){
-        for (int i = 50; i < 650; i+= 50) { //creates the floor
-            walls.add(new Wall(i, 600, 50, 50));
-        }
-        for (int i = 450; i < 600; i+=50) { //creates the boarder walls
-            walls.add(new Wall(50,i,50,50));
-            walls.add(new Wall(600,i,50,50));
-        }
-        walls.add(new Wall(450,550,50,50)); //adds the wall in the middle
+    public void reset(){ //this is to respawn the player when they fall or die
+        player.x = 200; //this is the location where they respawn
+        player.y = 150;
+        cameraX = 150;
+        player.xspeed = 0; //this is so they respawn with no speed
+        player.yspeed = 0;
+        walls.clear(); //so the walls do not continuously overlap
 
+        offset = -150; //moves the level spawn, so you don't spawn on the edge
+        makeWalls(offset); //recreates the walls
+    }
+
+    public void makeWalls(int offset){
+        int s = 50; //wall size
+        Random random = new Random();
+        int index = random.nextInt(2);
+
+        //add different indexes to make more of the map
+        if(index == 0){ //index determines the level which is to be played
+            for (int i = 0; i < 14; i++) walls.add(new Wall(offset + i*s, 600 ,s ,s));
+        }
+        else if(index ==1){
+            walls.add(new Wall(offset + 450,550,s,s));
+            walls.add(new Wall(offset + 350,450,s,s));
+            walls.add(new Wall(offset + 300,500,s,s));
+            walls.add(new Wall(offset + 100,550,s,s));
+        }
     }
 
     public void paint(Graphics g){
