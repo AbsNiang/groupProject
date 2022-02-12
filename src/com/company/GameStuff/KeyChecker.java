@@ -3,7 +3,7 @@ package com.company.GameStuff;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class KeyChecker extends KeyAdapter {
+public class KeyChecker extends KeyAdapter { //KeyAdapter means it is listening for key inputs
 
     GamePanel panel;
 
@@ -12,12 +12,12 @@ public class KeyChecker extends KeyAdapter {
     }
 
     @Override
-    public void keyPressed(KeyEvent e){ //sends when a key is pressed to the panel
+    public void keyPressed(KeyEvent e) { //sends when a key is pressed to the panel
         panel.keyPressed(e);
     }
 
     @Override
-    public void keyReleased(KeyEvent e){ //sends when a key is released to the panel
+    public void keyReleased(KeyEvent e) { //sends when a key is released to the panel
         panel.keyReleased(e);
     }
 }

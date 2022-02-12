@@ -8,10 +8,8 @@ public class Wall {
     int y;
     int height;
     int width;
-
     int startX;
-
-    Rectangle hitBox;
+    Rectangle hitbox;
 
     public Wall(int x, int y, int height, int width) {
         this.x = x;
@@ -20,7 +18,7 @@ public class Wall {
         this.width = width;
         startX = x;
 
-        hitBox = new Rectangle(x,y,width,height);
+        hitbox = new Rectangle(x,y,width,height);
     }
 
     public void draw(Graphics2D gtd){
@@ -32,7 +30,7 @@ public class Wall {
 
     public int set(int cameraX){
         x = startX + cameraX;
-        hitBox.x = x;
+        hitbox.x = x;
         return x;
     }
 }

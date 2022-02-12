@@ -13,9 +13,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
 
     Player player;
     ArrayList<Wall> walls = new ArrayList<>(); //stores all the walls
-
     Timer gameTimer;
-
     int cameraX;
     int offset;
 
@@ -38,11 +36,11 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
                 for (Wall wall : walls) wall.set(cameraX);
                 for (int i = 0; i < walls.size(); i++) { //remove this loop to keep the prior map
                     if (walls.get(i).x < -800)
-                        walls.remove(i); //Removes walls behind the player if it generates to many
+                        walls.remove(i); //Removes the walls behind the player if it generates to many
                 }
                 repaint();
             }
-        }, 0, 17); //delay changes when the timer starts, period is how long it waits between each tick at 17 it is set to 60fps
+        }, 0, 17); //delay changes when the timer starts, period is how long it waits between each tick at 17 it's set to 60fps
     }
 
     public void reset() { //this is to respawn the player when they fall or die
@@ -51,7 +49,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
         cameraX = 150;
         player.xspeed = 0; //this is so they respawn with no speed
         player.yspeed = 0;
-        walls.clear(); //so the walls do not continuously overlap
+        walls.clear(); //clears the ArrayList so the walls do not continuously overlap
 
         offset = -150; //moves the level spawn, so you don't spawn on the edge
         makeWalls(offset); //recreates the walls
@@ -65,7 +63,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
         //add different indexes to make more of the map
         if (index == 0) { //index determines the level which is to be played
             for (int i = 0; i < 14; i++) walls.add(new Wall(offset + i * s, 600, s, s));
-        } else if (index == 1) {
+        } else { //index is always 1 if not 0 with the current random.nextInt parameters
             walls.add(new Wall(offset + 450, 550, s, s));
             walls.add(new Wall(offset + 350, 450, s, s));
             walls.add(new Wall(offset + 300, 500, s, s));
@@ -77,7 +75,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
         super.paint(g); //paints over the previous frame to prevent flickering
 
         Graphics2D gtd = (Graphics2D) g; //casts graphics to 2D graphics
-        if (player.isMoving()) { //changes the colour of the player, depending whether they are moving or not
+        if (player.isMoving()) { //changes the colour of the player, depending on whether they are moving or not
             player.drawMoving(gtd);
         } else {
             player.drawStill(gtd); //draws the player
@@ -87,17 +85,21 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
     }
 
     public void keyPressed(KeyEvent e) { //moves the player depending on what key is pressed
-        if (e.getKeyChar() == 'a') player.keyLeft = true;
-        if (e.getKeyChar() == 'w') player.keyUp = true;
-        if (e.getKeyChar() == 'd') player.keyRight = true;
-        if (e.getKeyChar() == 's') player.keyDown = true;
+        if ((e.getKeyChar() == 'a') || (e.getKeyCode() == KeyEvent.VK_LEFT)) player.keyLeft = true;
+        if ((e.getKeyChar() == 'w') || (e.getKeyCode() == KeyEvent.VK_UP) || (e.getKeyCode() == KeyEvent.VK_SPACE)) {
+            player.keyUp = true;
+        }
+        if ((e.getKeyChar() == 'd') || (e.getKeyCode() == KeyEvent.VK_RIGHT)) player.keyRight = true;
+        if ((e.getKeyChar() == 's') || (e.getKeyCode() == KeyEvent.VK_DOWN)) player.keyDown = true;
     }
 
     public void keyReleased(KeyEvent e) {//stops the player depending on what key is released
-        if (e.getKeyChar() == 'a') player.keyLeft = false;
-        if (e.getKeyChar() == 'w') player.keyUp = false;
-        if (e.getKeyChar() == 'd') player.keyRight = false;
-        if (e.getKeyChar() == 's') player.keyDown = false;
+        if ((e.getKeyChar() == 'a') || (e.getKeyCode() == KeyEvent.VK_LEFT)) player.keyLeft = false;
+        if ((e.getKeyChar() == 'w') || (e.getKeyCode() == KeyEvent.VK_UP) || (e.getKeyCode() == KeyEvent.VK_SPACE)) {
+            player.keyUp = false;
+        }
+        if ((e.getKeyChar() == 'd') || (e.getKeyCode() == KeyEvent.VK_RIGHT)) player.keyRight = false;
+        if ((e.getKeyChar() == 's') || (e.getKeyCode() == KeyEvent.VK_DOWN)) player.keyDown = false;
     }
 
     @Override
