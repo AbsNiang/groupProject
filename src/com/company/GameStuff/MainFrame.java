@@ -12,8 +12,7 @@ public class MainFrame extends javax.swing.JFrame{
         panel.setBackground(Color.LIGHT_GRAY);
         panel.setVisible(true);
         this.add(panel);
-
-        addKeyListener(new KeyChecker(panel)); //allows the panel to listen for key inputs
+        addKeyListener(new KeyChecker(panel)); //allows the panel to 'listen' for key inputs
     }
 
 }
