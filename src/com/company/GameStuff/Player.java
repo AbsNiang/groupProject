@@ -24,6 +24,7 @@ public class Player {
     boolean keyRight;
     boolean keyUp;
     boolean keyDown;
+    boolean keyInv;
 
     public Player(int x, int y, GamePanel panel){ //x & y in this line are the players starting pos
         this.panel = panel;
@@ -90,6 +91,7 @@ public class Player {
 
         //death code
         if (y> 800) panel.reset(); //if the player goes below this amount they respawn
+
     }
 
     public void draw(Graphics2D gtd){

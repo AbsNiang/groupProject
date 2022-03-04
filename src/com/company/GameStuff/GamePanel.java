@@ -18,6 +18,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
 
     int cameraX;
     int offset;
+    boolean floor = true;
+    boolean left_wall = true;
 
     public GamePanel(){
 
@@ -59,17 +61,19 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
     public void makeWalls(int offset){
         int s = 50; //wall size
         Random random = new Random();
-        int index = random.nextInt(2);
 
-        //add different indexes to make more of the map
-        if(index == 0){ //index determines the level which is to be played
-            for (int i = 0; i < 14; i++) walls.add(new Wall(offset + i*s, 600 ,s ,s));
+
+        if (floor == true){
+            for (int i = 0; i < 20; i++) {//creates 20 walls wide to make a floor
+                walls.add(new Wall(offset + 100 + i * 50, 600, s, s));
+            }
+            floor = false;
         }
-        else if(index ==1){
-            walls.add(new Wall(offset + 450,550,s,s));
-            walls.add(new Wall(offset + 350,450,s,s));
-            walls.add(new Wall(offset + 300,500,s,s));
-            walls.add(new Wall(offset + 100,550,s,s));
+        if (left_wall == true){
+            for (int i = 0; i < 20; i++) {//creates 20 walls wide to make a floor
+                walls.add(new Wall(offset + 100, 600 - i*50, s, s));
+            }
+            left_wall = false;
         }
     }
 
@@ -88,6 +92,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
         if (e.getKeyChar() == 'w') player.keyUp = true;
         if (e.getKeyChar() == 'd') player.keyRight = true;
         if (e.getKeyChar() == 's') player.keyDown = true;
+        if (e.getKeyChar() == 'i') player.keyInv = true;
     }
 
     public void keyReleased(KeyEvent e) {//stops the player depending on what key is released
@@ -95,6 +100,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
         if (e.getKeyChar() == 'w') player.keyUp = false;
         if (e.getKeyChar() == 'd') player.keyRight = false;
         if (e.getKeyChar() == 's') player.keyDown = false;
+        if (e.getKeyChar() == 'i') player.keyInv = false;
     }
 
     @Override

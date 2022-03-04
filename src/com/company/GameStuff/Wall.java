@@ -12,6 +12,7 @@ public class Wall {
     int startX;
 
     Rectangle hitBox;
+    Rectangle invMenu;
 
     public Wall(int x, int y, int height, int width) {
         this.x = x;
@@ -21,6 +22,7 @@ public class Wall {
         startX = x;
 
         hitBox = new Rectangle(x,y,width,height);
+        invMenu = new Rectangle(x,y,width,height);
     }
 
     public void draw(Graphics2D gtd){
