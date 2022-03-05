@@ -2,6 +2,7 @@ package com.company.GameStuff;
 
 import com.company.GameStuff.GamePanel;
 
+import javax.swing.*;
 import java.awt.*;
 
 import static java.lang.Math.signum;
@@ -25,6 +26,8 @@ public class Player {
     boolean keyUp;
     boolean keyDown;
     boolean keyInv;
+
+    private Image image;
 
     public Player(int x, int y, GamePanel panel){ //x & y in this line are the players starting pos
         this.panel = panel;
@@ -94,8 +97,22 @@ public class Player {
 
     }
 
+    public Image getImage(){
+        return image;
+    }
+
     public void draw(Graphics2D gtd){
-        gtd.setColor(Color.BLACK); //sets the colour of the player
-        gtd.fillRect(x,y,width,height); //fills in the player, so it is not an outline of a rectangle
+        //gtd.setColor(Color.BLACK); //sets the colour of the player
+        //gtd.fillRect(x,y,width,height); //fills in the player, so it is not an outline of a rectangle
+        loadPlayerSprite();
+        gtd.drawImage(getImage(), x, y, null);
+    }
+
+    public void loadPlayerSprite(){
+        ImageIcon ii = new ImageIcon("src/com/company/SpriteStorage/playerTestSprite.jpg");
+        image = ii.getImage();
+
+        width = image.getWidth(null);
+        height = image.getHeight(null);
     }
 }
