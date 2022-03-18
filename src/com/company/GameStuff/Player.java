@@ -104,12 +104,17 @@ public class Player {
     public void draw(Graphics2D gtd){
         //gtd.setColor(Color.BLACK); //sets the colour of the player
         //gtd.fillRect(x,y,width,height); //fills in the player, so it is not an outline of a rectangle
-        loadPlayerSprite();
+        if (xspeed >=0) {
+            loadPlayerSprite("src/com/company/SpriteStorage/pixil-frame-0.png");
+        }
+        if (xspeed <0){
+            loadPlayerSprite("src/com/company/SpriteStorage/pixil-left.png");
+        }
         gtd.drawImage(getImage(), x, y, null);
     }
 
-    public void loadPlayerSprite(){
-        ImageIcon ii = new ImageIcon("src/com/company/SpriteStorage/playerTestSprite.jpg");
+    public void loadPlayerSprite(String imageLocation){
+        ImageIcon ii = new ImageIcon(imageLocation);
         image = ii.getImage();
 
         width = image.getWidth(null);
