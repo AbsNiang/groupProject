@@ -13,6 +13,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
 
     Player player;
     ArrayList<Wall> walls = new ArrayList<>(); //stores all the walls
+    ArrayList<Enemy01> enemy01s = new ArrayList<>();
 
     Timer gameTimer;
 
@@ -36,6 +37,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
                 }
                 player.set();
                 for(Wall wall : walls) wall.set(cameraX);
+                for(Enemy01 enemy01 : enemy01s)enemy01.set(cameraX);
                 for (int i = 0; i < walls.size(); i++) { //remove this loop to keep the prior map
                     if(walls.get(i).x < -800) walls.remove(i); //Removes walls behind the player if it generates to many
                 }
@@ -51,6 +53,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
         player.xspeed = 0; //this is so they respawn with no speed
         player.yspeed = 0;
         walls.clear(); //so the walls do not continuously overlap
+        enemy01s.clear();
 
         offset = -150; //moves the level spawn, so you don't spawn on the edge
         makeWalls(offset); //recreates the walls
@@ -70,6 +73,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
             walls.add(new Wall(offset + 350,450,s,s));
             walls.add(new Wall(offset + 300,500,s,s));
             walls.add(new Wall(offset + 100,550,s,s));
+            enemy01s.add(new Enemy01(offset + 450,500));
         }
     }
 
@@ -81,6 +85,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
         player.draw(gtd); //draws the player
 
         for (Wall wall : walls) wall.draw(gtd); //goes through and draws each wall in the walls arraylist
+        for (Enemy01 enemy01 : enemy01s) enemy01.draw(gtd);
     }
 
     public void keyPressed(KeyEvent e) { //moves the player depending on what key is pressed
