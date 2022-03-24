@@ -1,5 +1,6 @@
 package com.company.GameStuff;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
 
     int cameraX;
     int offset;
+    int points = -100;
 
     public GamePanel(){
 
@@ -46,6 +48,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
                 for (int i = 0; i < walls.size(); i++) { //remove this loop to keep the prior map
                     if(walls.get(i).x < -800) walls.remove(i); //Removes walls behind the player if it generates to many
                 }
+
                 repaint();
             }
         }, 0,17); //delay changes when the timer starts, period is how long it waits between each tick at 17 it is set to 60fps
@@ -59,6 +62,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
         player.yspeed = 0;
         walls.clear(); //so the walls do not continuously overlap
         enemy01s.clear();
+        points = -100;
 
         offset = -150; //moves the level spawn, so you don't spawn on the edge
         makeWalls(offset); //recreates the walls
@@ -66,6 +70,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
 
     public void makeWalls(int offset){
         int s = 50; //wall size
+        points += 50;
         Random random = new Random();
         int index = random.nextInt(2);
         if(index == 0){ //index determines the level which is to be played
@@ -89,6 +94,10 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
         super.paint(g); //paints over the previous frame to prevent flickering
 
         Graphics2D gtd = (Graphics2D) g; //casts graphics to 2D graphics
+
+        Font font = new Font("Serif", Font.PLAIN, 20);
+        gtd.setFont(font);
+        gtd.drawString("Score: "+points, 100, 100);
 
         player.draw(gtd); //draws the player
 
