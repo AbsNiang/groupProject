@@ -73,6 +73,16 @@ public class Player {
                 hitBox.x = x;
             }
         }
+        for(Enemy01 enemy01 : panel.enemy01s){ //checking for all walls
+            if(hitBox.intersects(enemy01.hitBox)){ //if the hitBox hits a wall
+                hitBox.x -= xspeed;
+                while(!enemy01.hitBox.intersects(hitBox)) hitBox.x += Math.signum(xspeed); //signum takes the value of it being + or -, allows the player to get as close to the wall without going through it
+                hitBox.x -= Math.signum(xspeed);
+                panel.cameraX += x - hitBox.x; //corrects for player x value changing when hitting a wall
+                xspeed = 0;
+                hitBox.x = x;
+            }
+        }
 
         //vertical collisions
         hitBox.y += yspeed;
@@ -80,6 +90,15 @@ public class Player {
             if(hitBox.intersects(wall.hitBox)){ //if the hitBox hits a wall
                 hitBox.y -= yspeed;
                 while(!wall.hitBox.intersects(hitBox)) hitBox.y += Math.signum(yspeed); //signum takes the value of it being + or -, allows the player to get as close to the wall without going through it
+                hitBox.y -= Math.signum(yspeed);
+                yspeed = 0;
+                y = hitBox.y;
+            }
+        }
+        for(Enemy01 enemy01 : panel.enemy01s){ //checking for all walls
+            if(hitBox.intersects(enemy01.hitBox)){ //if the hitBox hits a wall
+                hitBox.y -= yspeed;
+                while(!enemy01.hitBox.intersects(hitBox)) hitBox.y += Math.signum(yspeed); //signum takes the value of it being + or -, allows the player to get as close to the wall without going through it
                 hitBox.y -= Math.signum(yspeed);
                 yspeed = 0;
                 y = hitBox.y;
