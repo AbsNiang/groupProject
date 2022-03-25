@@ -22,8 +22,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
     int offset;
     int points = -100;
 
-    public GamePanel(){
+    boolean spawnMade = false;
 
+    public GamePanel(){
         player = new Player(400,300,this);
 
         reset(); //creates the level
@@ -33,9 +34,15 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
 
             @Override
             public void run(){ //this is the main loop of the game and will run each frame
-                if(walls.get(walls.size() - 1).x < 800){ //check to see if eligible to make more walls
-                    offset += 700; //moves the offset so the walls don't overlap
-                    makeWalls(offset);
+                if (spawnMade == true) {
+                    if (walls.get(walls.size() - 1).x < 800) { //check to see if eligible to make more walls
+                        offset += 700; //moves the offset so the walls don't overlap
+                        makeWalls(offset);
+                    }
+                }
+                if (spawnMade == false) {
+                    startArea();
+                    spawnMade = true;
                 }
                 player.set();
                 for(Wall wall : walls) wall.set(cameraX);
@@ -63,20 +70,21 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
         walls.clear(); //so the walls do not continuously overlap
         enemy01s.clear();
         points = -100;
+        spawnMade = false;
 
         offset = -150; //moves the level spawn, so you don't spawn on the edge
         makeWalls(offset); //recreates the walls
+    }
+
+    public void startArea(){
+        for (int i = 0; i < 14; i++) walls.add(new Wall(i*50, 600 ,50 ,50));
     }
 
     public void makeWalls(int offset){
         int s = 50; //wall size
         points += 50;
         Random random = new Random();
-        int index = random.nextInt(2);
-        if(index == 0){ //index determines the level which is to be played
-            for (int i = 0; i < 14; i++) walls.add(new Wall(offset + i*s, 600 ,s ,s));
-            enemy01s.add(new Enemy01(offset + 450,550, this));
-        }
+        int index = random.nextInt(3);
         //add different indexes to make more of the map
         if(index == 0){ //index determines the level which is to be played
             for (int i = 0; i < 14; i++) walls.add(new Wall(offset + i*s, 600 ,s ,s));
@@ -87,6 +95,13 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
             walls.add(new Wall(offset + 350,450,s,s));
             walls.add(new Wall(offset + 300,500,s,s));
             walls.add(new Wall(offset + 100,550,s,s));
+        }
+        else if(index == 2){
+            walls.add(new Wall(offset + 450,550,s,s));
+            walls.add(new Wall(offset + 550,600,s,s));
+            walls.add(new Wall(offset + 300,550,s,s));
+            walls.add(new Wall(offset + 200,600,s,s));
+            walls.add(new Wall(offset + 150,600,s,s));
         }
     }
 
