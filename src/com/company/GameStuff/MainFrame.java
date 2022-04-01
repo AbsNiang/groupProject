@@ -9,7 +9,7 @@ public class MainFrame extends javax.swing.JFrame{
         GamePanel panel = new GamePanel();
         panel.setLocation(0,0);
         panel.setSize(this.getSize());
-        panel.setBackground(Color.LIGHT_GRAY);
+        panel.setBackground(Color.CYAN);
         panel.setVisible(true);
         this.add(panel);
         addKeyListener(new KeyChecker(panel)); //allows the panel to 'listen' for key inputs

@@ -23,6 +23,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
     int points = -100;
 
     boolean spawnMade = false;
+    boolean isDead = false;
 
     public GamePanel(){
         player = new Player(400,300,this);
@@ -44,7 +45,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
                     startArea();
                     spawnMade = true;
                 }
-                player.set();
+                isDead = player.set(isDead);
+                if(isDead == true) reset();
                 for(Wall wall : walls) wall.set(cameraX);
                 for(Enemy01 enemy01 : enemy01s){
                     enemy01.set(cameraX);
@@ -71,6 +73,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
         enemy01s.clear();
         points = -100;
         spawnMade = false;
+        isDead = false;
 
         offset = -150; //moves the level spawn, so you don't spawn on the edge
         makeWalls(offset); //recreates the walls
@@ -84,7 +87,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
         int s = 50; //wall size
         points += 50;
         Random random = new Random();
-        int index = random.nextInt(3);
+        int index = random.nextInt(5);
         //add different indexes to make more of the map
         if(index == 0){ //index determines the level which is to be played
             for (int i = 0; i < 14; i++) walls.add(new Wall(offset + i*s, 600 ,s ,s));
@@ -102,6 +105,29 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener { //
             walls.add(new Wall(offset + 300,550,s,s));
             walls.add(new Wall(offset + 200,600,s,s));
             walls.add(new Wall(offset + 150,600,s,s));
+        }
+        else if(index == 3){
+            walls.add(new Wall(offset + 0,600,s,s));
+            walls.add(new Wall(offset + 50,600,s,s));
+            walls.add(new Wall(offset + 50,550,s,s));
+            walls.add(new Wall(offset + 150,500,s,s));
+            walls.add(new Wall(offset + 200,500,s,s));
+            walls.add(new Wall(offset + 250,500,s,s));
+            walls.add(new Wall(offset + 250,450,s,s));
+            walls.add(new Wall(offset + 400,600,s,s));
+            walls.add(new Wall(offset + 550,600,s,s));
+        }
+        else if(index == 4){
+            walls.add(new Wall(offset + 0,600,s,s));
+            walls.add(new Wall(offset + 0,550,s,s));
+            walls.add(new Wall(offset + 50,600,s,s));
+            walls.add(new Wall(offset + 100,600,s,s));
+            walls.add(new Wall(offset + 150,600,s,s));
+            walls.add(new Wall(offset + 200,600,s,s));
+            walls.add(new Wall(offset + 200,550,s,s));
+            walls.add(new Wall(offset + 300,550,s,s));
+            walls.add(new Wall(offset + 400,500,s,s));
+            enemy01s.add(new Enemy01(offset + 150,550, this));
         }
     }
 

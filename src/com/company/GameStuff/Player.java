@@ -39,7 +39,7 @@ public class Player {
         hitBox = new Rectangle(x,y,width,height); //sets the players hitBox to the players pos and size
     }
 
-    public void set(){ //runs every frame of the game
+    public boolean set(boolean isDead){ //runs every frame of the game
         if (keyLeft && keyRight || !keyLeft && !keyRight) xspeed *= 0.8; //stops the player moving if both directional keys or no keys are pressed, the deceleration speed
         else if(keyLeft && !keyRight) xspeed --;//moves the player depending on what keys are pressed
         else if(keyRight && !keyLeft) xspeed ++;
@@ -81,6 +81,7 @@ public class Player {
                 panel.cameraX += x - hitBox.x; //corrects for player x value changing when hitting a wall
                 xspeed = 0;
                 hitBox.x = x;
+                isDead = true;
             }
         }
 
@@ -102,6 +103,7 @@ public class Player {
                 hitBox.y -= Math.signum(yspeed);
                 yspeed = 0;
                 y = hitBox.y;
+                isDead = true;
             }
         }
 
@@ -113,7 +115,7 @@ public class Player {
 
         //death code
         if (y> 800) panel.reset(); //if the player goes below this amount they respawn
-
+        return isDead;
     }
 
     public Image getImage(){
